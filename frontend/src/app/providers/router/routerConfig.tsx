@@ -1,8 +1,9 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
 import App from '../../App';
 import RegistrationForm from '../../../components/RegistrationForm/RegistrationForm';
+import LoginForm from '../../../components/LoginForm/LoginForm';
 
-const router = createBrowserRouter([
+const routerConfig = createBrowserRouter([
     {
         path: '/',
         element: <App children={<Outlet />} />,
@@ -11,8 +12,12 @@ const router = createBrowserRouter([
                 path: 'registration',
                 element: <RegistrationForm />,
             },
+            {
+                path: 'login',
+                element: <LoginForm />,
+            },
         ],
     },
 ]);
 
-export default router;
+export default routerConfig;

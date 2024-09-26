@@ -4,7 +4,7 @@ import InputPassword from '../Input/InputPassword/InputPassword';
 import InputText from '../Input/InputText/InputText';
 import { useNavigate } from 'react-router-dom';
 
-const RegistrationForm = () => {
+const LoginForm = () => {
     const [isRequest, setIsRequest] = useState(false);
     const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const RegistrationForm = () => {
 
     return (
         <div className="flex flex-col items-center px-8 py-12 shadow-xl rounded-xl w-[450px]">
-            <h1 className="text-3xl font-medium mb-10">Registration</h1>
+            <h1 className="text-3xl font-medium mb-10">Login</h1>
             <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
                 <div className="flex flex-col w-full">
                     <InputText
@@ -30,19 +30,14 @@ const RegistrationForm = () => {
                         id={'password'}
                         placeholder="Enter password"
                     />
-                    <InputPassword
-                        label={'Confirm password'}
-                        id={'confirm-password'}
-                        placeholder="Confirm password"
-                    />
                 </div>
                 <div className="mt-4 w-full flex flex-col items-center">
                     <SubmitButton isRequest={isRequest} />
                     <span
                         className="text-blue-500 cursor-pointer font-light mt-3"
-                        onClick={() => navigate('/login')}
+                        onClick={() => navigate('/registration')}
                     >
-                        Login
+                        Registration
                     </span>
                 </div>
             </form>
@@ -50,4 +45,4 @@ const RegistrationForm = () => {
     );
 };
 
-export default RegistrationForm;
+export default LoginForm;
