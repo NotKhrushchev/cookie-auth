@@ -26,7 +26,9 @@ const RegistrationForm = () => {
 
         if (!email.value || !isEmailValid || !password.value || !isPasswordsMatch) {
             !email.value && setEmail({ ...email, errorText: 'Email is required' });
-            !isEmailValid && setEmail({ ...email, errorText: 'Email is not valid' });
+            !isEmailValid &&
+                email.value &&
+                setEmail({ ...email, errorText: 'Email is not valid' });
             !password.value &&
                 setPassword({ ...password, errorText: 'Password is required' });
             !isPasswordsMatch &&
@@ -49,7 +51,8 @@ const RegistrationForm = () => {
     };
 
     useEffect(() => {
-        if (email.errorText) setEmail({ ...email, errorText: '' });
+        if (email.errorText && checkEmailValid(email.value) && email)
+            setEmail({ ...email, errorText: '' });
     }, [email.value]);
 
     useEffect(() => {
