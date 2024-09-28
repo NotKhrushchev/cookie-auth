@@ -1,18 +1,22 @@
-import { ChangeEvent, InputHTMLAttributes, useRef, useState } from 'react';
+import {
+    ChangeEvent,
+    Dispatch,
+    InputHTMLAttributes,
+    SetStateAction,
+} from 'react';
 
 export interface IInput extends InputHTMLAttributes<HTMLInputElement> {
     label: string;
     id: string;
+    setValue: Dispatch<SetStateAction<any>>;
+    errorText?: string;
 }
 
 const InputText = (props: IInput) => {
-    const { label, id, ...otherProps } = props;
-    const [value, setValue] = useState<string>('');
-    const [error, setError] = useState<string>('');
-    const ref = useRef<HTMLInputElement>(null);
+    const { label, id, value, setValue, errorText, ...otherProps } = props;
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
+        setValue({ value: e.target.value, errorText });
     };
 
     return (
@@ -23,7 +27,6 @@ const InputText = (props: IInput) => {
                 </label>
                 <input
                     id={id}
-                    ref={ref}
                     value={value}
                     onChange={handleChange}
                     className={
@@ -33,7 +36,7 @@ const InputText = (props: IInput) => {
                     {...otherProps}
                 />
             </div>
-            <span className="text-red-600 break-words text-sm">{error}</span>
+            <span className="text-red-600 break-words text-sm">{errorText}</span>
         </div>
     );
 };

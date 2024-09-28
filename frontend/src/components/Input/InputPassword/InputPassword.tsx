@@ -1,17 +1,14 @@
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { IInput } from '../InputText/InputText';
 import EyeOpen from '../../../shared/assets/eye-open-svgrepo-com.svg';
 import EyeClose from '../../../shared/assets/eye-close-svgrepo-com.svg';
 
 const InputPassword = (props: IInput) => {
-    const { label, id, ...otherProps } = props;
-    const [value, setValue] = useState<string>('');
-    const [error, setError] = useState<string>('');
+    const { label, id, value, setValue, errorText, ...otherProps } = props;
     const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
-    const ref = useRef<HTMLInputElement>(null);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
+        setValue({ value: e.target.value, errorText });
     };
 
     return (
@@ -23,7 +20,6 @@ const InputPassword = (props: IInput) => {
                 <div className="relative">
                     <input
                         id={id}
-                        ref={ref}
                         value={value}
                         type={isShowPassword ? 'text' : 'password'}
                         onChange={handleChange}
@@ -41,7 +37,7 @@ const InputPassword = (props: IInput) => {
                     </div>
                 </div>
             </div>
-            <span className="text-red-600 break-words text-sm">{error}</span>
+            <span className="text-red-600 break-words text-sm">{errorText}</span>
         </div>
     );
 };

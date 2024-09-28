@@ -6,6 +6,12 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginForm = () => {
     const [isRequest, setIsRequest] = useState(false);
+    const [email, setEmail] = useState<{ value: string; errorText?: string }>({
+        value: '',
+    });
+    const [password, setPassword] = useState<{ value: string; errorText?: string }>({
+        value: '',
+    });
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -24,11 +30,16 @@ const LoginForm = () => {
                         type="email"
                         label="Email"
                         placeholder="Enter your email"
+                        setValue={setEmail}
+                        value={email.value}
+                        errorText={email.errorText}
                     />
                     <InputPassword
                         label={'Password'}
                         id={'password'}
                         placeholder="Enter password"
+                        setValue={setPassword}
+                        value={password.value}
                     />
                 </div>
                 <div className="mt-4 w-full flex flex-col items-center">

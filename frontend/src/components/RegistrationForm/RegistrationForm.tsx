@@ -7,6 +7,16 @@ import { useNavigate } from 'react-router-dom';
 const RegistrationForm = () => {
     const [isRequest, setIsRequest] = useState(false);
     const navigate = useNavigate();
+    const [email, setEmail] = useState<{ value: string; errorText?: string }>({
+        value: '',
+    });
+    const [password, setPassword] = useState<{ value: string; errorText?: string }>({
+        value: '',
+    });
+    const [confirmPassword, setConfirmPassword] = useState<{
+        value: string;
+        errorText?: string;
+    }>({ value: '' });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -24,16 +34,23 @@ const RegistrationForm = () => {
                         type="email"
                         label="Email"
                         placeholder="Enter your email"
+                        setValue={setEmail}
+                        value={email.value}
+                        errorText={email.errorText}
                     />
                     <InputPassword
                         label={'Password'}
                         id={'password'}
                         placeholder="Enter password"
+                        setValue={setPassword}
+                        errorText={password.errorText}
                     />
                     <InputPassword
                         label={'Confirm password'}
                         id={'confirm-password'}
                         placeholder="Confirm password"
+                        setValue={setConfirmPassword}
+                        errorText={confirmPassword.errorText}
                     />
                 </div>
                 <div className="mt-4 w-full flex flex-col items-center">

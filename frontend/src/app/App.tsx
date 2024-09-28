@@ -1,10 +1,13 @@
 import { ReactNode, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const App = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
+    let location = useLocation();
 
-    useEffect(() => navigate('/registration'), []);
+    useEffect(() => {
+        location?.pathname == '/' && navigate('/registration');
+    }, []);
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center">
