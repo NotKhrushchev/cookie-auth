@@ -4,13 +4,14 @@ import InputPassword from '../Input/InputPassword/InputPassword';
 import InputText from '../Input/InputText/InputText';
 import { useNavigate } from 'react-router-dom';
 import checkEmailValid from '../../shared/lib/checkEmailValid/checkEmailValid';
+import checkPasswordValid from '../../shared/lib/checkPasswordValid/checkPasswordValid';
 
 const RegistrationForm = () => {
     const [isRequest, setIsRequest] = useState<boolean>(false);
-    const navigate = useNavigate();
     const [email, setEmail] = useState<{ value: string; errorText?: string }>({
         value: '',
     });
+    const [isShowErrors, setIsShowErrors] = useState<boolean>(false);
     const [password, setPassword] = useState<{ value: string; errorText?: string }>({
         value: '',
     });
@@ -18,50 +19,32 @@ const RegistrationForm = () => {
         value: string;
         errorText?: string;
     }>({ value: '' });
-
-    const checkRegFormDataValid = () => {
-        const isEmailValid = checkEmailValid(email.value);
-        const isPasswordsMatch = password.value === confirmPassword.value;
-        console.log(isPasswordsMatch);
-
-        if (!email.value || !isEmailValid || !password.value || !isPasswordsMatch) {
-            !email.value && setEmail({ ...email, errorText: 'Email is required' });
-            !isEmailValid &&
-                email.value &&
-                setEmail({ ...email, errorText: 'Email is not valid' });
-            !password.value &&
-                setPassword({ ...password, errorText: 'Password is required' });
-            !isPasswordsMatch &&
-                setConfirmPassword({
-                    ...confirmPassword,
-                    errorText: "Passwords don't match",
-                });
-            return false;
-        } else {
-            return true;
-        }
-    };
+    const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        if (checkRegFormDataValid()) {
+        !isShowErrors && setIsShowErrors(true);
+
+        if (!(email.errorText || password.errorText || confirmPassword.errorText)) {
             setIsRequest(true);
             setTimeout(() => setIsRequest(false), 3000);
         }
     };
 
     useEffect(() => {
-        if (email.errorText && checkEmailValid(email.value) && email)
-            setEmail({ ...email, errorText: '' });
+        setEmail({ ...email, errorText: checkEmailValid(email.value, true) });
     }, [email.value]);
 
     useEffect(() => {
-        if (password.errorText) setPassword({ ...password, errorText: '' });
+        setPassword({ ...password, errorText: checkPasswordValid(password.value) });
     }, [password.value]);
 
     useEffect(() => {
-        if (confirmPassword.errorText && password.value)
-            setConfirmPassword({ ...confirmPassword, errorText: '' });
+        const isPasswordsMatch = confirmPassword.value === password.value;
+        setConfirmPassword({
+            ...confirmPassword,
+            errorText: !isPasswordsMatch ? "Passwords don't match" : '',
+        });
     }, [confirmPassword.value, password.value]);
 
     return (
@@ -75,21 +58,21 @@ const RegistrationForm = () => {
                         placeholder="Enter your email"
                         setValue={setEmail}
                         value={email.value}
-                        errorText={email.errorText}
+                        errorText={isShowErrors ? email.errorText : ''}
                     />
                     <InputPassword
                         label={'Password'}
                         id={'password'}
                         placeholder="Enter password"
                         setValue={setPassword}
-                        errorText={password.errorText}
+                        errorText={isShowErrors ? password.errorText : ''}
                     />
                     <InputPassword
                         label={'Confirm password'}
                         id={'confirm-password'}
                         placeholder="Confirm password"
                         setValue={setConfirmPassword}
-                        errorText={confirmPassword.errorText}
+                        errorText={isShowErrors ? confirmPassword.errorText : ''}
                     />
                 </div>
                 <div className="mt-4 w-full flex flex-col items-center">
