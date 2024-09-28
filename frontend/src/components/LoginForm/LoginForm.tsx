@@ -27,7 +27,6 @@ const LoginForm = () => {
                 <div className="flex flex-col w-full">
                     <InputText
                         id="email"
-                        type="email"
                         label="Email"
                         placeholder="Enter your email"
                         setValue={setEmail}
